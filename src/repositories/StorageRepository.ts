@@ -5,6 +5,7 @@ const STORAGE_BUCKET = 'documents';
 
 export interface IStorageRepository {
   uploadFile(buffer: Buffer, path: string, mimeType: string): Promise<string>;
+  deleteFile(path: string): Promise<void>;
 }
 
 export class StorageRepository implements IStorageRepository {
@@ -19,6 +20,17 @@ export class StorageRepository implements IStorageRepository {
     }
 
     return path;
+  }
+
+  async deleteFile(path: string): Promise<void> {
+    const { error } = await getSupabaseAdmin()
+      .storage
+      .from(STORAGE_BUCKET)
+      .remove([path]);
+
+    if (error) {
+      throw new AppError(`Failed to delete storage file: ${error.message}`);
+    }
   }
 }
 

@@ -42,9 +42,21 @@ export interface DocumentMetadata {
 export interface DocumentWithChunkCount {
   id: string;
   title: string;
+  source: string;
   status: DocumentStatus;
   chunkCount: number;
   metadata: DocumentMetadata;
+  created_at: string;
+}
+
+// ─── Chunk summary (no embedding vector — detail view only) ────────────────
+
+export interface ChunkSummary {
+  id: string;
+  chunk_index: number;
+  content: string;
+  has_embedding: boolean;
+  estimated_tokens: number | null;
   created_at: string;
 }
 
@@ -91,9 +103,12 @@ export type ChatApiResponse = ChatResult;
 export interface DocumentDetailResponse {
   id: string;
   title: string;
+  source: string;
   status: DocumentStatus;
   chunkCount: number;
   metadata: DocumentMetadata;
+  created_at: string;
+  chunks: ChunkSummary[];
 }
 
 export interface DocumentListResponse {

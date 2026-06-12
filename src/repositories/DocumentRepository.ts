@@ -18,7 +18,9 @@ export interface CreateDocumentInput {
 
 export interface IDocumentRepository {
   create(input: CreateDocumentInput): Promise<Document>;
+  findById(id: string): Promise<Document | null>;
   updateStatus(id: string, status: DocumentStatus): Promise<void>;
+  deleteById(id: string): Promise<void>;
   findByIdWithChunkCount(id: string): Promise<DocumentWithChunkCount | null>;
   listWithChunkCounts(): Promise<DocumentWithChunkCount[]>;
 }
@@ -27,6 +29,7 @@ export interface IDocumentRepository {
 type RawDocumentRow = {
   id: string;
   title: string;
+  source: string;
   status: string;
   metadata: DocumentMetadata;
   created_at: string;
@@ -37,12 +40,16 @@ function toDocumentWithChunkCount(row: RawDocumentRow): DocumentWithChunkCount {
   return {
     id: row.id,
     title: row.title,
+    source: row.source,
     status: row.status as DocumentStatus,
     metadata: row.metadata,
     created_at: row.created_at,
     chunkCount: row.document_chunks?.[0]?.count ?? 0,
   };
 }
+
+const WITH_CHUNK_COUNT_SELECT =
+  'id, title, source, status, metadata, created_at, document_chunks(count)';
 
 export class DocumentRepository implements IDocumentRepository {
   async create(input: CreateDocumentInput): Promise<Document> {
@@ -65,6 +72,21 @@ export class DocumentRepository implements IDocumentRepository {
     return data as Document;
   }
 
+  async findById(id: string): Promise<Document | null> {
+    const { data, error } = await getSupabaseAdmin()
+      .from('documents')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw new AppError(`Failed to fetch document: ${error.message}`);
+    }
+
+    return data as Document;
+  }
+
   async updateStatus(id: string, status: DocumentStatus): Promise<void> {
     const { error } = await getSupabaseAdmin()
       .from('documents')
@@ -76,15 +98,26 @@ export class DocumentRepository implements IDocumentRepository {
     }
   }
 
+  async deleteById(id: string): Promise<void> {
+    const { error } = await getSupabaseAdmin()
+      .from('documents')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      throw new AppError(`Failed to delete document: ${error.message}`);
+    }
+  }
+
   async findByIdWithChunkCount(id: string): Promise<DocumentWithChunkCount | null> {
     const { data, error } = await getSupabaseAdmin()
       .from('documents')
-      .select('id, title, status, metadata, created_at, document_chunks(count)')
+      .select(WITH_CHUNK_COUNT_SELECT)
       .eq('id', id)
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') return null; // row not found
+      if (error.code === 'PGRST116') return null;
       throw new AppError(`Failed to fetch document: ${error.message}`, 500);
     }
 
@@ -94,7 +127,7 @@ export class DocumentRepository implements IDocumentRepository {
   async listWithChunkCounts(): Promise<DocumentWithChunkCount[]> {
     const { data, error } = await getSupabaseAdmin()
       .from('documents')
-      .select('id, title, status, metadata, created_at, document_chunks(count)')
+      .select(WITH_CHUNK_COUNT_SELECT)
       .order('created_at', { ascending: false });
 
     if (error) {
