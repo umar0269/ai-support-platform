@@ -1,9 +1,9 @@
 // Token approximation: 1 token ≈ 4 characters (GPT tokenizer average for English)
 const CHARS_PER_TOKEN = 4;
-const TARGET_CHUNK_TOKENS = 500;
-const OVERLAP_TOKENS = 50;
-const TARGET_CHUNK_CHARS = TARGET_CHUNK_TOKENS * CHARS_PER_TOKEN; // 2000
-const OVERLAP_CHARS = OVERLAP_TOKENS * CHARS_PER_TOKEN;           // 200
+const TARGET_CHUNK_TOKENS = 200;
+const OVERLAP_TOKENS = 30;
+const TARGET_CHUNK_CHARS = TARGET_CHUNK_TOKENS * CHARS_PER_TOKEN; // 800
+const OVERLAP_CHARS = OVERLAP_TOKENS * CHARS_PER_TOKEN;           // 120
 
 export interface TextChunk {
   content: string;

@@ -3,7 +3,7 @@ import { retrievalService, type IRetrievalService } from '@/services/retrievalSe
 import { promptBuilder, type IPromptBuilder } from '@/services/promptBuilder';
 import type { ChatResult } from '@/types';
 
-const CONFIDENCE_REVIEW_THRESHOLD = 0.75;
+const CONFIDENCE_REVIEW_THRESHOLD = 0.45;
 
 export interface IChatService {
   chat(question: string): Promise<ChatResult>;
