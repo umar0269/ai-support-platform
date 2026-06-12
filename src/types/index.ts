@@ -60,6 +60,22 @@ export interface ChunkSummary {
   created_at: string;
 }
 
+// ─── Support tickets ───────────────────────────────────────────────────────
+
+export type TicketStatus = 'open' | 'resolved';
+export type TicketPriority = 'high' | 'medium';
+
+export interface SupportTicket {
+  id: string;
+  question: string;
+  answer: string;
+  confidence: number;
+  status: TicketStatus;
+  sources: ChatSource[];
+  created_at: string;
+  updated_at: string;
+}
+
 // ─── RAG / Chat shapes ─────────────────────────────────────────────────────
 
 export interface RetrievedChunk {
@@ -99,6 +115,9 @@ export interface ApiErrorResponse {
 
 export type ChatApiRequest = { message: string };
 export type ChatApiResponse = ChatResult;
+
+export interface TicketListResponse { tickets: SupportTicket[] }
+export interface TicketUpdateRequest { status: TicketStatus }
 
 export interface DocumentDetailResponse {
   id: string;

@@ -13,6 +13,7 @@ type NavItem = {
 const NAV: NavItem[] = [
   { label: 'Documents', href: '/admin/documents', icon: DocumentsIcon },
   { label: 'Upload',    href: '/admin/upload',    icon: UploadIcon },
+  { label: 'Tickets',   href: '/admin/tickets',   icon: TicketIcon },
   { label: 'Analytics', href: '/admin/analytics', icon: ChartIcon, disabled: true },
 ];
 
@@ -67,7 +68,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="px-6 py-4 border-t border-gray-100">
-        <p className="text-xs text-gray-400">Phase 4 · Admin</p>
+        <p className="text-xs text-gray-400">Phase 5 · Admin</p>
       </div>
     </aside>
   );
@@ -117,6 +118,14 @@ function UploadIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+    </svg>
+  );
+}
+
+function TicketIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
     </svg>
   );
 }
