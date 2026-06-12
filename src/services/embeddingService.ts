@@ -1,30 +1,13 @@
-import { getOpenAIClient } from '@/lib/openai/client';
-import { AppError } from '@/lib/errors/AppError';
+import { createEmbeddingProvider } from '@/lib/embedding/factory';
+import type { EmbeddingProvider } from '@/lib/embedding/types';
 
-const EMBEDDING_MODEL = 'text-embedding-3-small';
-const EXPECTED_DIMENSIONS = 1536;
-
-export interface IEmbeddingService {
-  generateEmbedding(text: string): Promise<number[]>;
-}
+export type IEmbeddingService = EmbeddingProvider;
 
 export class EmbeddingService implements IEmbeddingService {
-  async generateEmbedding(text: string): Promise<number[]> {
-    const response = await getOpenAIClient().embeddings.create({
-      model: EMBEDDING_MODEL,
-      input: text,
-    });
+  private readonly provider: EmbeddingProvider = createEmbeddingProvider();
 
-    const embedding = response.data[0].embedding;
-
-    if (embedding.length !== EXPECTED_DIMENSIONS) {
-      throw new AppError(
-        `Embedding dimension mismatch: expected ${EXPECTED_DIMENSIONS}, got ${embedding.length}`,
-        500,
-      );
-    }
-
-    return embedding;
+  generateEmbedding(text: string): Promise<number[]> {
+    return this.provider.generateEmbedding(text);
   }
 }
 
