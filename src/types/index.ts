@@ -48,6 +48,29 @@ export interface DocumentWithChunkCount {
   created_at: string;
 }
 
+// ─── RAG / Chat shapes ─────────────────────────────────────────────────────
+
+export interface RetrievedChunk {
+  id: string;
+  documentId: string;
+  title: string;
+  content: string;
+  similarity: number;
+}
+
+export interface ChatSource {
+  documentId: string;
+  title: string;
+  similarity: number;
+}
+
+export interface ChatResult {
+  answer: string;
+  sources: ChatSource[];
+  confidence: number;
+  needsReview?: boolean;
+}
+
 // ─── API response shapes ───────────────────────────────────────────────────
 
 export interface UploadApiResponse {
@@ -61,6 +84,9 @@ export interface ApiErrorResponse {
   success: false;
   error: string;
 }
+
+export type ChatApiRequest = { message: string };
+export type ChatApiResponse = ChatResult;
 
 export interface DocumentDetailResponse {
   id: string;
