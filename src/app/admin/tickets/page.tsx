@@ -22,7 +22,7 @@ export default function TicketsPage() {
   }
 
   return (
-    <div className="p-6 md:p-10 max-w-5xl">
+    <div className="p-6 md:p-10 ">
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between mb-6">

@@ -51,7 +51,7 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="p-6 md:p-10 max-w-2xl">
+    <div className="p-6 md:p-10 ">
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className="mb-8">

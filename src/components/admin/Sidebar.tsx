@@ -68,7 +68,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="px-6 py-4 border-t border-gray-100">
-        <p className="text-xs text-gray-400">Phase 5 · Admin</p>
+        <p className="text-xs text-gray-400"> Admin</p>
       </div>
     </aside>
   );
