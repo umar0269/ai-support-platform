@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Widget Embed Test</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 80px auto; padding: 0 20px; color: #333; }
+    h1 { font-size: 2rem; }
+    p { line-height: 1.7; color: #555; }
+    .card { background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 12px; padding: 24px; margin: 24px 0; }
+  </style>
+</head>
+<body>
+  <h1>Acme Corp Support</h1>
+  <p>This is a <strong>plain HTML page</strong> with no React, no Next.js — simulating a customer's website.</p>
+  <div class="card">
+    <h2>Pricing</h2>
+    <p>We offer three plans: Starter, Pro, and Enterprise. Click the chat widget to ask about them.</p>
+  </div>
+  <div class="card">
+    <h2>Refund Policy</h2>
+    <p>All plans come with a 30-day money-back guarantee. Ask the AI assistant for details.</p>
+  </div>
+  <p>The chat bubble should appear in the bottom-right corner ↘</p>
+
+  <!-- Widget embed (points to local dev server) -->
+  <script>
+    window.AI_SUPPORT_CONFIG = {
+      apiUrl: "http://localhost:3000",
+      projectId: "acme-demo"
+    };
+  </script>
+  <script src="http://localhost:3000/widget.js" async></script>
+</body>
+</html>

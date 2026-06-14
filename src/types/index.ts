@@ -113,7 +113,7 @@ export interface ApiErrorResponse {
   error: string;
 }
 
-export type ChatApiRequest = { message: string };
+export type ChatApiRequest = { message: string; projectId?: string };
 export type ChatApiResponse = ChatResult;
 
 export interface TicketListResponse { tickets: SupportTicket[] }
